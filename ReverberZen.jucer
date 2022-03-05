@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="JeOhJ6" name="ReverberZen" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginManufacturer="CodeZenAudio"
+              cppLanguageStandard="17">
+  <MAINGROUP id="GTjt2v" name="ReverberZen">
+    <GROUP id="{B0E5ACD0-3FE2-5E48-FF15-4F7AE2CA97FD}" name="Source">
+      <FILE id="mhpIUQ" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="eGSPN2" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="y9eQcv" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="X1KKMY" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+    <GROUP id="{6C889AFE-93C1-1BBC-2015-E7E80411E4F2}" name="GUI">
+      <FILE id="kcQx5T" name="Zen_Knob.cpp" compile="1" resource="0" file="Source/Zen_Knob.cpp"/>
+      <FILE id="Mb0dn3" name="Zen_Knob.h" compile="0" resource="0" file="Source/Zen_Knob.h"/>
+      <FILE id="AyVu71" name="Zen_LookAndFeel.cpp" compile="1" resource="0"
+            file="Source/Zen_LookAndFeel.cpp"/>
+      <FILE id="azs6H2" name="Zen_LookAndFeel.h" compile="0" resource="0"
+            file="Source/Zen_LookAndFeel.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ReverberZen"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ReverberZen"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
