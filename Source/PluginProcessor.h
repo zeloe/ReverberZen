@@ -71,22 +71,17 @@ private:
     juce::dsp::DelayLine<float> thirdIIRL {14400} ;
     juce::dsp::DelayLine<float> fourthFIRL {14400} ;
     juce::dsp::DelayLine<float> fourthIIRL {14400} ;
-    juce::dsp::DelayLine<float> fifthFIRL {14400} ;
+    
     juce::dsp::DelayLine<float> fifthIIRL {14400} ;
-    juce::dsp::DelayLine<float> sixthFIRL {14400} ;
     juce::dsp::DelayLine<float> sixthIIRL {14400} ;
-    juce::dsp::DelayLine<float> seventhFIRL {14400} ;
     juce::dsp::DelayLine<float> seventhIIRL {14400} ;
-    juce::dsp::DelayLine<float> eightFIRL {14400} ;
     juce::dsp::DelayLine<float> eightIIRL {14400} ;
+    
     juce::dsp::DelayLine<float> firstalignL {14400} ;
     juce::dsp::DelayLine<float> secondalignL {14400} ;
     juce::dsp::DelayLine<float> thirdalignL {14400} ;
     juce::dsp::DelayLine<float> fourthalignL {14400} ;
-    juce::dsp::DelayLine<float> fifthalignL {14400} ;
-    juce::dsp::DelayLine<float> sixthalignL {14400} ;
-    juce::dsp::DelayLine<float> seventhalignL {14400} ;
-    juce::dsp::DelayLine<float> eightalignL {14400} ;
+    
     juce::dsp::DelayLine<float> feedbackL {19200} ;
     juce::dsp::DelayLine<float> feedbacktwoL {19200} ;
     
@@ -99,22 +94,17 @@ private:
     juce::dsp::DelayLine<float> thirdIIRR {14400} ;
     juce::dsp::DelayLine<float> fourthFIRR {14400} ;
     juce::dsp::DelayLine<float> fourthIIRR {14400} ;
-    juce::dsp::DelayLine<float> fifthFIRR {14400} ;
+    
     juce::dsp::DelayLine<float> fifthIIRR {14400} ;
-    juce::dsp::DelayLine<float> sixthFIRR {14400} ;
     juce::dsp::DelayLine<float> sixthIIRR {14400} ;
-    juce::dsp::DelayLine<float> seventhFIRR {14400} ;
     juce::dsp::DelayLine<float> seventhIIRR {14400} ;
-    juce::dsp::DelayLine<float> eightFIRR {14400} ;
     juce::dsp::DelayLine<float> eightIIRR {14400} ;
+    
     juce::dsp::DelayLine<float> firstalignR {14400} ;
     juce::dsp::DelayLine<float> secondalignR {14400} ;
     juce::dsp::DelayLine<float> thirdalignR {14400} ;
     juce::dsp::DelayLine<float> fourthalignR {14400} ;
-    juce::dsp::DelayLine<float> fifthalignR {14400} ;
-    juce::dsp::DelayLine<float> sixthalignR {14400} ;
-    juce::dsp::DelayLine<float> seventhalignR {14400} ;
-    juce::dsp::DelayLine<float> eightalignR {14400} ;
+    
     juce::dsp::DelayLine<float> feedbackR {19200} ;
     juce::dsp::DelayLine<float> feedbacktwoR {19200} ;
     
