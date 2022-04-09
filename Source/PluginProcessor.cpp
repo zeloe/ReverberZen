@@ -391,7 +391,7 @@ ReverberZenAudioProcessor::createParameterLayout()
     layout.add(std::make_unique<juce::AudioParameterFloat>("Decay",
                                                           "Decay",0.0f,1.f,0.3f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("PreDelay",
-                                                          "PreDelay",0.01f,25.f,0.3f));
+                                                          "PreDelay",1.f,25.f,3.f));
     
     return layout;
 }
