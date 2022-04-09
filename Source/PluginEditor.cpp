@@ -26,8 +26,10 @@ preDelayAttachment(audioProcessor.apvts, "PreDelay", preDelayKnob)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (450, 450);
-    setResizeLimits(450, 450, 600, 600);
+    setSize (600, 600);
+    setResizable(true, true);
+    getConstrainer()->setFixedAspectRatio(1.0);
+    setResizeLimits(600, 600, 900, 900);
     earlyReflectionsKnob.setStyles(juce::Zen_Knob::ZenStyles::blueknob);
     earlyReflectionsKnob.setTextValueSuffix(" ER");
     earlyReflectionsKnob.setRange(0.00f, 1.f,0.01f);
@@ -50,7 +52,7 @@ preDelayAttachment(audioProcessor.apvts, "PreDelay", preDelayKnob)
     
     preDelayKnob.setStyles(juce::Zen_Knob::ZenStyles::lightblueknob);
     preDelayKnob.setTextValueSuffix(" PreDelay");
-    preDelayKnob.setRange(0.01f,25.f,0.01f);
+    preDelayKnob.setRange(1.f,25.f,0.01f);
     addAndMakeVisible(&preDelayKnob);
     
 }
@@ -68,9 +70,17 @@ void ReverberZenAudioProcessorEditor::paint (juce::Graphics& g)
 
 void ReverberZenAudioProcessorEditor::resized()
 {
-    earlyReflectionsKnob.setBounds(50, 100, 150, 150);
-    reverbAmountKnob.setBounds(300, 100, 150, 150);
-    wetKnob.setBounds(50, 300, 150, 150);
-    decayKnob.setBounds(300,300,150,150);
-    preDelayKnob.setBounds(175,100,150,150);
+    auto bounds = getLocalBounds();
+    auto width = bounds.getWidth();
+    auto height = bounds.getHeight();
+    
+    auto offset_x =  width / 10 - 10;
+    auto offset_y = height / 10 - 10;
+    
+    
+    earlyReflectionsKnob.setBounds(offset_x, offset_y * 2, offset_x * 3, offset_x * 3);
+    reverbAmountKnob.setBounds(offset_x * 7, offset_y * 2, offset_x * 3, offset_x * 3);
+    wetKnob.setBounds(offset_x, offset_y * 6, offset_x * 3, offset_x * 3);
+    decayKnob.setBounds(offset_x * 7,offset_y * 6,offset_x * 3,offset_x * 3);
+    preDelayKnob.setBounds(offset_x * 4,offset_y * 2,offset_x * 3,offset_x * 3);
 }

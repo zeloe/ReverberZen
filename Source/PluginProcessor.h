@@ -56,6 +56,7 @@ public:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
 private:
+
     juce::LinearSmoothedValue<float> eRSmooth {0.0f};
     juce::LinearSmoothedValue<float> reverbSmooth {0.0f};
     juce::LinearSmoothedValue<float> wetSmooth {0.0f};
