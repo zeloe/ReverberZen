@@ -75,12 +75,12 @@ void ReverberZenAudioProcessorEditor::resized()
     auto height = bounds.getHeight();
     
     auto offset_x =  width / 10 - 10;
-    auto offset_y = height / 10 - 10;
+    auto offset_y = height / 10 ;
     
     
-    earlyReflectionsKnob.setBounds(offset_x, offset_y * 2, offset_x * 3, offset_x * 3);
-    reverbAmountKnob.setBounds(offset_x * 7, offset_y * 2, offset_x * 3, offset_x * 3);
-    wetKnob.setBounds(offset_x, offset_y * 6, offset_x * 3, offset_x * 3);
-    decayKnob.setBounds(offset_x * 7,offset_y * 6,offset_x * 3,offset_x * 3);
-    preDelayKnob.setBounds(offset_x * 4,offset_y * 2,offset_x * 3,offset_x * 3);
+    earlyReflectionsKnob.setBounds(offset_x, offset_y * 2, offset_x * 2, offset_x * 2);
+    reverbAmountKnob.setBounds(offset_x * 7, offset_y * 2, offset_x * 2, offset_x * 2);
+    wetKnob.setBounds(offset_x, offset_y * 6, offset_x * 2, offset_x * 2);
+    decayKnob.setBounds(offset_x * 7,offset_y * 6,offset_x * 2,offset_x * 2);
+    preDelayKnob.setBounds(offset_x * 4,offset_y * 2,offset_x * 2,offset_x * 2);
 }

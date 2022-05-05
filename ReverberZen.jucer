@@ -21,6 +21,15 @@
       <FILE id="azs6H2" name="Zen_LookAndFeel.h" compile="0" resource="0"
             file="Source/Zen_LookAndFeel.h"/>
     </GROUP>
+    <GROUP id="{CAAD9C69-7645-D2F4-2E71-AEF86C84BC15}" name="DSP">
+      <FILE id="tnZ6a6" name="Static_Filter.h" compile="0" resource="0" file="Source/Static_Filter.h"/>
+      <FILE id="kdmEIn" name="Static_Filter.cpp" compile="1" resource="0"
+            file="Source/Static_Filter.cpp"/>
+      <FILE id="PfaDT8" name="Delays.cpp" compile="1" resource="0" file="Source/Delays.cpp"/>
+      <FILE id="VYDFOn" name="Delays.h" compile="0" resource="0" file="Source/Delays.h"/>
+      <FILE id="zRjzEp" name="GainStage.cpp" compile="1" resource="0" file="Source/GainStage.cpp"/>
+      <FILE id="hGSSZl" name="GainStage.h" compile="0" resource="0" file="Source/GainStage.h"/>
+    </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

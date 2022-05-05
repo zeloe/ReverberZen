@@ -9,7 +9,9 @@
 #pragma once
 
 #include <JuceHeader.h>
-
+#include "Delays.h"
+#include "GainStage.h"
+#include "Static_Filter.h"
 //==============================================================================
 /**
 */
@@ -52,65 +54,82 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-    
+    void initDSP() {
+        for (int i = 0; i < 2; i++){
+                
+                    predelay[i] = std::make_unique<Delays>();
+            
+                    delayOne[i] = std::make_unique<Delays>();
+                    
+                    delayTwo[i] = std::make_unique<Delays>();
+                    
+                    delayThree[i] = std::make_unique<Delays>();
+                    
+                    delayFour[i] = std::make_unique<Delays>();
+                    
+                    delayFive[i] = std::make_unique<Delays>();
+                    
+                    delaySix[i] = std::make_unique<Delays>();
+                    
+                    delaySeven[i] = std::make_unique<Delays>();
+                    
+                    delayEight[i] = std::make_unique<Delays>();
+            
+                    lopFilterOne[i] = std::make_unique<Static_Filter>();
+            
+                    earlyGain[i] = std::make_unique<Gain>();
+            
+                    feedbackGain[i] = std::make_unique<Gain>();
+            
+                    wetGain[i] = std::make_unique<Gain>();
+            
+                    lopFilterOne[i] = std::make_unique<Static_Filter>();
+            
+                    lopFilterTwo[i] = std::make_unique<Static_Filter>();
+            
+                    lopFilterThree[i] = std::make_unique<Static_Filter>();
+            
+                    lopFilterFour[i] = std::make_unique<Static_Filter>();
+            
+                    lopFilterFive[i] = std::make_unique<Static_Filter>();
+                    
+                    lopFilterSix[i] = std::make_unique<Static_Filter>();
+                    
+                    lopFilterSeven[i] = std::make_unique<Static_Filter>();
+            
+                    lopFilterEight[i] = std::make_unique<Static_Filter>();
+                }
+    }
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
 private:
 
-    juce::LinearSmoothedValue<float> eRSmooth {0.0f};
     juce::LinearSmoothedValue<float> reverbSmooth {0.0f};
-    juce::LinearSmoothedValue<float> wetSmooth {0.0f};
-    juce::LinearSmoothedValue<float> decaySmooth {0.0f};
     juce::LinearSmoothedValue<float> preDelaySmooth {0.0f};
     
-    juce::dsp::DelayLine<float> preDelayL {19200} ;
-    juce::dsp::DelayLine<float> firstFIRL {14400} ;
-    juce::dsp::DelayLine<float> firstIIRL {14400} ;
-    juce::dsp::DelayLine<float> secondFIRL {14400} ;
-    juce::dsp::DelayLine<float> secondIIRL {14400} ;
-    juce::dsp::DelayLine<float> thirdFIRL {14400} ;
-    juce::dsp::DelayLine<float> thirdIIRL {14400} ;
-    juce::dsp::DelayLine<float> fourthFIRL {14400} ;
-    juce::dsp::DelayLine<float> fourthIIRL {14400} ;
     
-    juce::dsp::DelayLine<float> fifthIIRL {14400} ;
-    juce::dsp::DelayLine<float> sixthIIRL {14400} ;
-    juce::dsp::DelayLine<float> seventhIIRL {14400} ;
-    juce::dsp::DelayLine<float> eightIIRL {14400} ;
+    std::unique_ptr<Delays> predelay[2];
+    std::unique_ptr<Delays> delayOne[2];
+    std::unique_ptr<Delays> delayTwo[2];
+    std::unique_ptr<Delays> delayThree[2];
+    std::unique_ptr<Delays> delayFour[2];
+    std::unique_ptr<Delays> delayFive[2];
+    std::unique_ptr<Delays> delaySix[2];
+    std::unique_ptr<Delays> delaySeven[2];
+    std::unique_ptr<Delays> delayEight[2];
     
-    juce::dsp::DelayLine<float> firstalignL {14400} ;
-    juce::dsp::DelayLine<float> secondalignL {14400} ;
-    juce::dsp::DelayLine<float> thirdalignL {14400} ;
-    juce::dsp::DelayLine<float> fourthalignL {14400} ;
+    std::unique_ptr<Gain> earlyGain[2];
+    std::unique_ptr<Gain> feedbackGain[2];
+    std::unique_ptr<Gain> wetGain[2];
     
-    juce::dsp::DelayLine<float> feedbackL {19200} ;
-    juce::dsp::DelayLine<float> feedbacktwoL {19200} ;
-    
-    juce::dsp::DelayLine<float> preDelayR {19200} ;
-    juce::dsp::DelayLine<float> firstFIRR {14400} ;
-    juce::dsp::DelayLine<float> firstIIRR {14400} ;
-    juce::dsp::DelayLine<float> secondFIRR {14400} ;
-    juce::dsp::DelayLine<float> secondIIRR {14400};
-    juce::dsp::DelayLine<float> thirdFIRR {14400} ;;
-    juce::dsp::DelayLine<float> thirdIIRR {14400} ;
-    juce::dsp::DelayLine<float> fourthFIRR {14400} ;
-    juce::dsp::DelayLine<float> fourthIIRR {14400} ;
-    
-    juce::dsp::DelayLine<float> fifthIIRR {14400} ;
-    juce::dsp::DelayLine<float> sixthIIRR {14400} ;
-    juce::dsp::DelayLine<float> seventhIIRR {14400} ;
-    juce::dsp::DelayLine<float> eightIIRR {14400} ;
-    
-    juce::dsp::DelayLine<float> firstalignR {14400} ;
-    juce::dsp::DelayLine<float> secondalignR {14400} ;
-    juce::dsp::DelayLine<float> thirdalignR {14400} ;
-    juce::dsp::DelayLine<float> fourthalignR {14400} ;
-    
-    juce::dsp::DelayLine<float> feedbackR {19200} ;
-    juce::dsp::DelayLine<float> feedbacktwoR {19200} ;
-    
-   
-    
+    std::unique_ptr<Static_Filter> lopFilterOne[2];
+    std::unique_ptr<Static_Filter> lopFilterTwo[2];
+    std::unique_ptr<Static_Filter> lopFilterThree[2];
+    std::unique_ptr<Static_Filter> lopFilterFour[2];
+    std::unique_ptr<Static_Filter> lopFilterFive[2];
+    std::unique_ptr<Static_Filter> lopFilterSix[2];
+    std::unique_ptr<Static_Filter> lopFilterSeven[2];
+    std::unique_ptr<Static_Filter> lopFilterEight[2];
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ReverberZenAudioProcessor)

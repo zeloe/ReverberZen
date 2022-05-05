@@ -22,6 +22,7 @@ ReverberZenAudioProcessor::ReverberZenAudioProcessor()
                        )
 #endif
 {
+    initDSP();
 }
 
 ReverberZenAudioProcessor::~ReverberZenAudioProcessor()
@@ -93,64 +94,78 @@ void ReverberZenAudioProcessor::changeProgramName (int index, const juce::String
 //==============================================================================
 void ReverberZenAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    eRSmooth.reset(sampleRate, 0.01f);
-    reverbSmooth.reset(sampleRate, 0.0001f);
-    wetSmooth.reset(sampleRate, 0.001f);
-    decaySmooth.reset(sampleRate, 0.001f);
+    
+    reverbSmooth.reset(sampleRate, 0.001f);
     preDelaySmooth.reset(sampleRate, 0.001f);
     juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
-    spec.numChannels = 1;
-    preDelayL.prepare(spec);
-    
-    firstFIRL.prepare(spec);
-    firstIIRL.prepare(spec);
-    secondFIRL.prepare(spec);
-    secondIIRL.prepare(spec);
-    thirdFIRL.prepare(spec);
-    thirdIIRL.prepare(spec);
-    fourthFIRL.prepare(spec);
-    fourthIIRL.prepare(spec);
-    
-    fifthIIRL.prepare(spec);
-    sixthIIRL.prepare(spec);
-    seventhIIRL.prepare(spec);
-    eightIIRL.prepare(spec);
-    
-    firstalignL.prepare(spec);
-    secondalignL.prepare(spec);
-    thirdalignL.prepare(spec);
-    fourthalignL.prepare(spec);
-    
-    
-    feedbackL.prepare(spec);
-    feedbacktwoL.prepare(spec);
-    preDelayR.prepare(spec);
-    firstFIRR.prepare(spec);
-    firstIIRR.prepare(spec);
-    secondFIRR.prepare(spec);
-    secondIIRR.prepare(spec);
-    thirdFIRR.prepare(spec);
-    thirdIIRR.prepare(spec);
-    fourthFIRR.prepare(spec);
-    fourthIIRR.prepare(spec);
-    
-    
-    fifthIIRR.prepare(spec);
-    sixthIIRR.prepare(spec);
-    seventhIIRR.prepare(spec);
-    eightIIRR.prepare(spec);
-    
-   
-    firstalignR.prepare(spec);
-    secondalignR.prepare(spec);
-    thirdalignR.prepare(spec);
-    fourthalignR.prepare(spec);
-    
-    feedbackR.prepare(spec);
-    feedbacktwoR.prepare(spec);
-    
+    spec.numChannels = 2;
+    for (int i = 0; i < 2; i++) {
+        predelay[i]->delay[i]->prepare(spec);
+        
+        
+        
+        delayOne[i]->Fbdelay[i]->prepare(spec);
+        delayOne[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayOne[i]->Ffdelay[i]->prepare(spec);
+        delayOne[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayOne[i]->delay[i]->prepare(spec);
+        delayOne[i]->feedback[i]->prepare(spec);
+        
+        delayTwo[i]->Fbdelay[i]->prepare(spec);
+        delayTwo[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayTwo[i]->Ffdelay[i]->prepare(spec);
+        delayTwo[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayTwo[i]->delay[i]->prepare(spec);
+        delayTwo[i]->feedback[i]->prepare(spec);
+        
+        delayThree[i]->Fbdelay[i]->prepare(spec);
+        delayThree[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayThree[i]->Ffdelay[i]->prepare(spec);
+        delayThree[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayThree[i]->delay[i]->prepare(spec);
+        delayThree[i]->feedback[i]->prepare(spec);
+        
+        delayFour[i]->Fbdelay[i]->prepare(spec);
+        delayFour[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayFour[i]->Ffdelay[i]->prepare(spec);
+        delayFour[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayFour[i]->delay[i]->prepare(spec);
+        delayFour[i]->feedback[i]->prepare(spec);
+        
+        delayFive[i]->Fbdelay[i]->prepare(spec);
+        delayFive[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayFive[i]->Ffdelay[i]->prepare(spec);
+        delayFive[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayFive[i]->delay[i]->prepare(spec);
+        delayFive[i]->feedback[i]->prepare(spec);
+        
+        delaySix[i]->Fbdelay[i]->prepare(spec);
+        delaySix[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delaySix[i]->Ffdelay[i]->prepare(spec);
+        delaySix[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delaySix[i]->delay[i]->prepare(spec);
+        delaySix[i]->feedback[i]->prepare(spec);
+        
+        delaySeven[i]->Fbdelay[i]->prepare(spec);
+        delaySeven[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delaySeven[i]->Ffdelay[i]->prepare(spec);
+        delaySeven[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delaySeven[i]->delay[i]->prepare(spec);
+        delaySeven[i]->feedback[i]->prepare(spec);
+        
+        delayEight[i]->Fbdelay[i]->prepare(spec);
+        delayEight[i]->Fbdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayEight[i]->Ffdelay[i]->prepare(spec);
+        delayEight[i]->Ffdelay[i]->setMaximumDelayInSamples(sampleRate * 0.001f * 250);
+        delayEight[i]->delay[i]->prepare(spec);
+        delayEight[i]->feedback[i]->prepare(spec);
+        
+        earlyGain[i]->gainParameter[i]->reset(sampleRate, 0.001f);
+        feedbackGain[i]->gainParameter[i]->reset(sampleRate, 0.001f);
+        wetGain[i]->gainParameter[i]->reset(sampleRate, 0.001f);
+    }
 }
 
 void ReverberZenAudioProcessor::releaseResources()
@@ -195,159 +210,76 @@ void ReverberZenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    auto* leftChannel = buffer.getWritePointer(0);
-    auto* rightChannel = buffer.getWritePointer(1);
-    auto* outLeft = buffer.getWritePointer(0);
-    auto* outRight = buffer.getWritePointer(1);
+    
     reverbSmooth.setTargetValue(apvts.getRawParameterValue("Reverb")->load());
-    eRSmooth.setTargetValue(apvts.getRawParameterValue("ER")->load());
-    wetSmooth.setTargetValue(apvts.getRawParameterValue("Wet")->load());
-    decaySmooth.setTargetValue(apvts.getRawParameterValue("Decay")->load());
     preDelaySmooth.setTargetValue(apvts.getRawParameterValue("PreDelay")->load());
-    for(int i = 0; i < buffer.getNumSamples(); ++i)
-    {
-        // preDelay Left
-        float offset = 1.0 - wetSmooth.getNextValue();
-        float inputL = preDelayL.popSample(0);
-        preDelayL.pushSample(0, leftChannel[i]);
-        preDelayL.setDelay(getSampleRate() * 0.001f *preDelaySmooth.getNextValue());
+    
+    float millis = getSampleRate() * 0.001f;
+    for(int chans = 0; chans < 2; chans++){
+        auto* inputs = buffer.getWritePointer(chans);
+        auto* outputs = buffer.getWritePointer(chans);
+        feedbackGain[chans]->gainParameter[chans]->setTargetValue(apvts.getRawParameterValue("Decay")->load());
+        earlyGain[chans]->gainParameter[chans]->setTargetValue(apvts.getRawParameterValue("ER")->load());
+        wetGain[chans]->gainParameter[chans]->setTargetValue(apvts.getRawParameterValue("Wet")->load());
+        for(int i = 0; i < buffer.getNumSamples(); ++i)
+        {
+            
+        // preDelay + filters
+            
+            float predelayed = predelay[chans]->simpledelay(inputs[i], preDelaySmooth.getNextValue(), chans);
+            // bessel 2nd order critical freq 10000 hz
+            delayOne[chans]->saveStage1(lopFilterOne[chans]->process(delayOne[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 100 + 10,chans),
+                                                                     0.2300941390717937, 0.4601882781435874,0.2300941390717937, -0.15674135277785778, 0.07711790906503295),chans);
+            // bessel 2nd order critical freq 9000 hz
+            delayTwo[chans]->saveStage1(lopFilterTwo[chans]->process(delayTwo[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 120+ 20,chans),
+                                                                     0.19545962366720693, 0.39091924733441386, 0.19545962366720693, -0.3109199123078439, 0.09275840697667159),chans);
+            // bessel 2nd order critical freq 8500 hz
+            delayThree[chans]->saveStage1(lopFilterThree[chans]->process(delayThree[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 110 + 30,chans),
+                                                                         0.2125061648995768, 0.4250123297991536, 0.2125061648995768, -0.23359635829124112, 0.08362101788954816
+                                                                         ),chans);
+            // bessel 2nd order critical freq 8900 hz
+            delayFour[chans]->saveStage1(lopFilterFour[chans]->process(delayFour[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 100 + 10,chans),
+                                                                       0.1921135654731113, 0.3842271309462226, 0.1921135654731113,-0.3264547217702863, 0.09490898366273133),chans);
+            // chebyshev 2nd order critical freq 10000 Hz Abp 3 db
+            delayFive[chans]->saveStage1(lopFilterFive[chans]->process(delayFive[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 120+ 20,chans),
+                                                                       0.17930052450956305, 0.3586010490191261, 0.17930052450956305, -0.45266529092814395, 0.46574018148938473),chans);
+            //chebishev 2nd order critical freq 8666 Hz
+            delaySix[chans]->saveStage1(lopFilterSix[chans]->process(delaySix[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 90+ 30,chans),
+                                                                     0.21216149712876453,0.42432299425752906,0.21216149712876453, -0.2533139194858135, 0.45205824035682385  ),chans);
+            //chebishev 2nd order critical freq 9500 Hz
+           delaySeven[chans]->saveStage1(lopFilterSeven[chans]->process(delaySeven[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 110+ 10,chans),
+                                                                         0.22948890460240615, 0.4589778092048123, 0.22948890460240615,-0.15144251975956102, 0.44808929506055417),chans);
+            //chebishev 2nd order critical freq 9999 Hz 3 db
+          delayEight[chans]->saveStage1(lopFilterEight[chans]->process(delayEight[chans]->simpledelay(predelayed, reverbSmooth.getNextValue() * millis * 120+ 20,chans),
+                                                                       0.17926886075782145, 0.3585377215156429, 0.17926886075782145, -0.4528616131590244, 0.46575759876771083
+                                                                    ),chans);
         
+        //earlyreflections
+        earlyGain[chans]->gainprocess(
+            delayOne[chans]->saveStage2(delayOne[chans]->allpass(delayOne[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 50 + 10, .85, chans),chans)+
+            delayTwo[chans]->saveStage2(delayTwo[chans]->allpass(delayTwo[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 30 + 5, .85, chans),chans)+
+            delayThree[chans]->saveStage2(delayThree[chans]->allpass(delayThree[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 40 + 8, 0.55, chans),chans)+
+            delayFour[chans]->saveStage2(delayFour[chans]->allpass(delayFour[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 50 + 16, 0.84, chans),chans)+
+            delayFive[chans]->saveStage2(delayFive[chans]->allpass(delayFive[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 30 + 20,0.89,chans),chans)+
+            delaySix[chans]->saveStage2(delaySix[chans]->allpass(delaySix[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 60 +10,0.7565,chans),chans)+
+            delaySeven[chans]->saveStage2(delaySeven[chans]->allpass(delaySeven[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 40 + 8,0.89,chans),chans)+
+            delayEight[chans]->saveStage2(delayEight[chans]->allpass(delayEight[chans]->returnStage1(chans), reverbSmooth.getNextValue() * millis * 30 + 5,0.932,chans),chans),chans);
         
-        //preDelay Right
-        float inputR  = preDelayR.popSample(0);
-        preDelayR.pushSample(0, rightChannel[i]);
-        preDelayR.setDelay(getSampleRate() * 0.001f *preDelaySmooth.getNextValue());
+        //feedback
+            feedbackGain[chans]->gainprocess(
+            delayOne[chans]->feedbackDelay(delayOne[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 122, 0.85,chans) +
+            delayTwo[chans]->feedbackDelay( delayTwo[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 120, 0.75, chans)  +
+            delayThree[chans]->feedbackDelay(delayThree[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 120, 0.85, chans) +
+            delayFour[chans]->feedbackDelay(delayFour[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 130, 0.84, chans)  +
+            delayFive[chans]->feedbackDelay(delayFive[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 140,0.75,chans)  +
+            delaySix[chans]->feedbackDelay(delaySix[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 130,0.85,chans) +
+            delaySeven[chans]->feedbackDelay(delaySeven[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 100,0.85,chans)  +
+            delayEight[chans]->feedbackDelay(delayEight[chans]->returnStage2(chans), reverbSmooth.getNextValue() * millis * 110,0.75,chans),chans);
+            
+            outputs[i] = wetGain[chans]->offsetgianprocess(inputs[i], chans) + wetGain[chans]->gainprocess(earlyGain[chans]->returnstage(chans) + feedbackGain[chans]->returnstage(chans),chans);
+            
         
-        float mid = (inputL + inputR) * 0.5f;
-        float side = (inputL - inputR) * 0.5f;
-        
-        float alignoneL = mid + firstalignL.popSample(0);
-        firstalignL.pushSample(0, side);
-        firstalignL.setDelay(40.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float aligntwoL = mid + secondalignL.popSample(0);
-        secondalignL.pushSample(0, side);
-        secondalignL.setDelay(50.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float alignthreeL = mid + thirdalignL.popSample(0);
-        thirdalignL.pushSample(0, side);
-        thirdalignL.setDelay(60.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float alignfourL = mid + fourthalignL.popSample(0);
-        fourthalignL.pushSample(0, side);
-        fourthalignL.setDelay(70.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        
-        
-        firstFIRL.pushSample(0, alignoneL);
-        firstFIRL.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        secondFIRL.pushSample(0, aligntwoL);
-        secondFIRL.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        thirdFIRL.pushSample(0, alignthreeL);
-        thirdFIRL.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        fourthFIRL.pushSample(0, alignfourL);
-        fourthFIRL.setDelay(110.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float firstallpassL = firstFIRL.popSample(0) * 0.25f + firstIIRL.popSample(0) * - 0.75f;
-        firstIIRL.pushSample(0, firstallpassL);
-        firstIIRL.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float secondallpassL = secondFIRL.popSample(0) * 0.35f + secondIIRL.popSample(0) * - 0.65f;
-        secondIIRL.pushSample(0, secondallpassL);
-        secondIIRL.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float thirdallpassL = thirdFIRL.popSample(0) * 0.15f + thirdIIRL.popSample(0) * -0.85f;
-        thirdIIRL.pushSample(0, thirdallpassL);
-        thirdIIRL.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float fourthallpassL = fourthFIRL.popSample(0) * 0.45f + fourthIIRL.popSample(0) * -0.55f;
-        fourthIIRL.pushSample(0, fourthallpassL);
-        fourthIIRL.setDelay(110.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        
-        float feedbackoneL = firstallpassL + fifthIIRL.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        fifthIIRL.pushSample(0, feedbackoneL);
-        fifthIIRL.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbacktwoL = secondallpassL + sixthIIRL.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        sixthIIRL.pushSample(0, feedbacktwoL);
-        sixthIIRL.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbackthreeL = thirdallpassL + seventhIIRL.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        seventhIIRL.pushSample(0, feedbackthreeL);
-        seventhIIRL.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbackfourL = fourthallpassL + eightIIRL.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        eightIIRL.pushSample(0, feedbackfourL);
-        eightIIRL.setDelay(70.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        
-        
-        float alignoneR = mid - firstalignR.popSample(0);
-        firstalignR.pushSample(0, side);
-        firstalignR.setDelay(40.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float aligntwoR = mid - secondalignR.popSample(0);
-        secondalignR.pushSample(0, side);
-        secondalignR.setDelay(50.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float alignthreeR = mid - thirdalignR.popSample(0);
-        thirdalignR.pushSample(0, side);
-        thirdalignR.setDelay(60.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        float alignfourR = mid - fourthalignR.popSample(0);
-        fourthalignR.pushSample(0, side);
-        fourthalignR.setDelay(70.f * getSampleRate()*0.001f * reverbSmooth.getNextValue());
-        
-        firstFIRR.pushSample(0, alignoneR);
-        firstFIRR.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        secondFIRR.pushSample(0, aligntwoR);
-        secondFIRR.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        thirdFIRR.pushSample(0, alignthreeR);
-        thirdFIRR.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        fourthFIRL.pushSample(0, alignfourR);
-        fourthFIRL.setDelay(110.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float firstallpassR = firstFIRR.popSample(0) * 0.25f + firstIIRR.popSample(0) * - 0.75f;
-        firstIIRR.pushSample(0, firstallpassR);
-        firstIIRR.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float secondallpassR = secondFIRR.popSample(0) * 0.35f + secondIIRR.popSample(0) * - 0.65f;
-        secondIIRR.pushSample(0, secondallpassR);
-        secondIIRR.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float thirdallpassR = thirdFIRR.popSample(0) * 0.15f + thirdIIRR.popSample(0) * -0.85f;
-        thirdIIRR.pushSample(0, thirdallpassR);
-        thirdIIRR.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float fourthallpassR = fourthFIRL.popSample(0) * 0.45f + fourthIIRR.popSample(0) * -0.55f;
-        fourthIIRR.pushSample(0, fourthallpassR);
-        fourthIIRR.setDelay(110.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbackoneR = firstallpassR + fifthIIRR.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        fifthIIRR.pushSample(0, feedbackoneR);
-        fifthIIRR.setDelay(100.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbacktwoR = secondallpassR + sixthIIRR.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        sixthIIRR.pushSample(0, feedbacktwoR);
-        sixthIIRR.setDelay(90.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbackthreeR = thirdallpassR + seventhIIRR.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        seventhIIRR.pushSample(0, feedbackthreeR);
-        seventhIIRR.setDelay(80.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        float feedbackfourR = fourthallpassR + eightIIRR.popSample(0) * 0.85f * decaySmooth.getNextValue();
-        eightIIRR.pushSample(0, feedbackfourR);
-        eightIIRR.setDelay(70.f * getSampleRate() * 0.001f * reverbSmooth.getNextValue());
-        
-        
-        float earlyReflectionsL = firstallpassL + secondallpassL + thirdallpassL + fourthallpassL;
-        float earlyReflectionsR = firstallpassR + secondallpassR + thirdallpassR + fourthallpassR;
-        
-        
-        
-        outLeft[i] =leftChannel[i] * offset + (earlyReflectionsL * eRSmooth.getNextValue() + feedbackoneL + feedbacktwoL + feedbackthreeL + feedbackfourL) * wetSmooth.getNextValue();
-        outRight[i] =rightChannel[i] * offset + (earlyReflectionsR * eRSmooth.getNextValue() + feedbackoneR + feedbacktwoR + feedbackthreeR + feedbackfourR) * wetSmooth.getNextValue();
-        
+        }
     }
 }
 
